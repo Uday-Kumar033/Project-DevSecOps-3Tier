@@ -82,8 +82,7 @@ Enter your MySQL root password when prompted.
 Inside the MySQL shell, run:
 
 ```sql
-ALTER USER 'root'@'localhost'
-IDENTIFIED WITH mysql_native_password BY 'Uday';
+ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY 'Uday';
 
 FLUSH PRIVILEGES;
 ```
