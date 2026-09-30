@@ -2,6 +2,31 @@
 
 This repository contains a 3-tier user management application built with a React frontend, Node.js backend API, and MySQL database. It provides a simple CRUD-based user management system and demonstrates how the frontend, backend, and database layers work together. Follow the setup instructions below to configure the project and run the complete application locally.
 
+## Architecture
+
+```text
+                ┌─────────────────────┐
+                │       Client        │
+                │   React Frontend    │
+                │     Port: 3000      │
+                └──────────┬──────────┘
+                           │
+                           │ HTTP / REST API
+                           ▼
+                ┌─────────────────────┐
+                │        API          │
+                │    Node.js Backend  │
+                │     Port: 5000      │
+                └──────────┬──────────┘
+                           │
+                           │ SQL Queries
+                           ▼
+                ┌─────────────────────┐
+                │      Database       │
+                │       MySQL         │
+                │      Port: 3306     │
+                └─────────────────────┘
+
 
 ## (A) MySQL Setup on Linux to run on local
 
