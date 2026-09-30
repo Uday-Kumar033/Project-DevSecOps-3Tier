@@ -283,26 +283,3 @@ SHOW TABLES;
 DESCRIBE users;
 ```
 
-## 11. Production Recommendations
-
-For production environments:
-
-1. Do not use the MySQL `root` account from your application.
-2. Create a dedicated database user with only the required permissions.
-3. Use a strong password.
-4. Store credentials in environment variables or a secrets manager.
-5. Never commit passwords or `.env` files to Git.
-6. Store password **hashes**, not plain-text passwords, in the `password` column.
-7. Regularly back up the database.
-
-## Database Information
-
-| Setting | Value |
-|---|---|
-| Database | `crud_app` |
-| Table | `users` |
-| Default Role | `viewer` |
-| Primary Key | `id` |
-| Unique Field | `email` |
-| Created Timestamp | `created_at` |
-
