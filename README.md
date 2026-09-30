@@ -40,7 +40,7 @@ Enable MySQL to start automatically after reboot:
 sudo systemctl enable mysql
 ```
 
-## 2. Log in to MySQL
+### 2. Log in to MySQL
 
 Open the MySQL shell:
 
@@ -52,7 +52,7 @@ Enter your MySQL root password when prompted.
 
 > **Note:** On some Ubuntu installations, the root account uses socket authentication and may not require a password when accessed with `sudo mysql`. If you configure a password for the root account, use the authentication method appropriate for your MySQL version.
 
-## 3. Set the Root Password
+### 3. Set the Root Password
 
 Inside the MySQL shell, run:
 
@@ -69,13 +69,13 @@ Then exit:
 EXIT;
 ```
 
-### Security Note
+#### Security Note
 
 Do not use a simple password such as `Aditya` in a production environment. Use a strong, unique password and never commit credentials to GitHub.
 
 For an application, it is better to create a separate MySQL user instead of using `root`.
 
-## 4. Create the Database
+### 4. Create the Database
 
 Log in again:
 
@@ -95,7 +95,7 @@ Verify that it was created:
 SHOW DATABASES;
 ```
 
-## 5. Select the Database
+### 5. Select the Database
 
 Switch to the `crud_app` database:
 
@@ -109,7 +109,7 @@ You can verify the currently selected database with:
 SELECT DATABASE();
 ```
 
-## 6. Create the `users` Table
+### 6. Create the `users` Table
 
 If you want to remove an existing `users` table first, run:
 
@@ -133,7 +133,7 @@ CREATE TABLE IF NOT EXISTS users (
 );
 ```
 
-## 7. Verify the Table
+### 7. Verify the Table
 
 Show all tables:
 
@@ -159,7 +159,7 @@ You should see columns similar to:
 | `is_active` | TINYINT(1) | Account active/inactive status |
 | `created_at` | TIMESTAMP | Account creation timestamp |
 
-## 8. Test the Database
+### 8. Test the Database
 
 Insert a test user:
 
@@ -174,7 +174,7 @@ Check the data:
 SELECT * FROM users;
 ```
 
-## 9. Useful MySQL Commands
+### 9. Useful MySQL Commands
 
 ### Show databases
 
@@ -212,7 +212,7 @@ SELECT * FROM users;
 EXIT;
 ```
 
-## 10. Complete Setup
+### 10. Complete Setup
 
 For a fresh setup, the main commands are:
 
