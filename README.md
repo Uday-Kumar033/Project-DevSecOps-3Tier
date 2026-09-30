@@ -3,7 +3,7 @@
 This repository contains a 3-tier user management application built with a React frontend, Node.js backend API, and MySQL database. It provides a simple CRUD-based user management system and demonstrates how the frontend, backend, and database layers work together. Follow the setup instructions below to configure the project and run the complete application locally.
 
 
-## (A)MySQL Setup on Linux to run on local
+## (A) MySQL Setup on Linux to run on local
 
 This guide explains how to install MySQL Server on Linux, configure the MySQL `root` user, create a database, and create a `users` table for a CRUD application.
 
@@ -214,7 +214,7 @@ EXIT;
 
 
 
-# (B)Setup NodeJs On Local
+# (B) Setup NodeJs On Local
 
 1. Install Node.js (version 18 or later is recommended).
    ```bash
