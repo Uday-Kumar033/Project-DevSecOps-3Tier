@@ -26,7 +26,7 @@ This repository contains a 3-tier user management application built with a React
                 │       MySQL         │
                 │      Port: 3306     │
                 └─────────────────────┘
-
+ ```
 
 ## (A) MySQL Setup on Linux to run on local
 
