@@ -249,12 +249,12 @@ EXIT;
 
    ```bash
    git clone https://github.com/Uday-Kumar033/Project-DevSecOps-3Tier.git
-   cd Project-DevSecOps-3Tier
    ```
 
 2. Install dependencies for both the API and client:
 
    ```bash
+   cd Project-DevSecOps-3Tier
    cd api && npm install
    cd ../client && npm install
    ```
