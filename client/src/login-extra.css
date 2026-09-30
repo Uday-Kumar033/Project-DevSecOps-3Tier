@@ -1,0 +1,88 @@
+/* ==========================================================
+   Append this to the end of your styles.css
+   (styles for the new Login elements — blue & black theme)
+   Also needs the .password-wrap / .toggle-pass rules from
+   dashboard-extra.css
+   ========================================================== */
+
+.login-page .login-card {
+  max-width: 440px;
+  width: 100%;
+  margin: 0 auto;
+  text-align: left;
+  border-top: 5px solid var(--primary);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+}
+
+.login-brand {
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.login-brand .logo {
+  height: 56px;
+  display: block;
+  margin: 0 auto 8px;
+  filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.6));
+}
+
+.login-brand-name {
+  margin: 0;
+  font-size: 1.7rem;
+  background: linear-gradient(90deg, var(--black), var(--primary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.login-brand-sub {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.login-heading {
+  margin: 0 0 16px;
+  padding-left: 10px;
+  border-left: 4px solid var(--primary);
+}
+
+.field-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--black);
+}
+
+.remember-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 16px;
+  font-size: 0.9rem;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.remember-row input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--primary);
+}
+
+.login-submit {
+  width: 100%;
+  padding: 13px;
+  font-size: 1rem;
+}
+
+.login-switch {
+  text-align: center;
+  margin: 10px 0 0;
+  color: var(--muted);
+}
+
+.login-switch a {
+  font-weight: 600;
+}
