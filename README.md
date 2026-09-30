@@ -71,7 +71,7 @@ EXIT;
 
 #### Security Note
 
-Do not use a simple password such as `Aditya` in a production environment. Use a strong, unique password and never commit credentials to GitHub.
+Do not use a simple password such as `Uday` in a production environment. Use a strong, unique password and never commit credentials to GitHub.
 
 For an application, it is better to create a separate MySQL user instead of using `root`.
 
