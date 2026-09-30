@@ -262,7 +262,7 @@ EXIT;
 3. Start the API server:
 
    ```bash
-   cd api
+   cd ../api
    npm start
    ```
 
