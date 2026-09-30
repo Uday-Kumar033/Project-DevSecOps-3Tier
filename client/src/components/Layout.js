@@ -30,7 +30,7 @@ function Layout({ children }) {
         </main>
       </div>
       <footer className="app-footer">
-        <p>&copy; {new Date().getFullYear()} DevOps Shack. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Uday DevOps. All rights reserved.</p>
       </footer>
 
       <button className="help-btn" onClick={() => setShowInfo(true)}>?</button>
