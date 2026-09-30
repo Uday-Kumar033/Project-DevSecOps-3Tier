@@ -2,6 +2,7 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import axios from '../axios';
 import { AuthContext } from '../context/AuthContext';
+import '../dashboard-extra.css';
 
 const PAGE_SIZE = 5;
 
