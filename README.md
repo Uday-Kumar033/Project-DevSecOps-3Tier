@@ -1,19 +1,19 @@
 # 3-Tier DevSecOps Project
 
-This repository contains a simple Node.js API and a React client used for a user management demo. Follow the steps below to get the project running locally.
+This repository contains a 3-tier user management application built with a React frontend, Node.js backend API, and MySQL database. It provides a simple CRUD-based user management system and demonstrates how the frontend, backend, and database layers work together. Follow the setup instructions below to configure the project and run the complete application locally.
 
 
-# MySQL Setup on Linux to run on local
+## MySQL Setup on Linux to run on local
 
 This guide explains how to install MySQL Server on Linux, configure the MySQL `root` user, create a database, and create a `users` table for a CRUD application.
 
-## Prerequisites
+### Prerequisites
 
 - Ubuntu/Debian-based Linux system
 - `sudo` privileges
 - Internet connection
 
-## 1. Install MySQL Server
+### 1. Install MySQL Server
 
 Update the package index and install MySQL Server:
 
