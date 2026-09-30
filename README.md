@@ -245,6 +245,12 @@ EXIT;
    sudo apt udate -y
    sudo apt install -y nodejs npm
    ```
+2. Clone the Repo
+
+   ```bash
+   git clone https://github.com/Uday-Kumar033/Project-DevSecOps-3Tier.git
+   cd Project-DevSecOps-3Tier
+   ```
 
 2. Install dependencies for both the API and client:
 
