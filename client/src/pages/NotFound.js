@@ -2,6 +2,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../logo.svg';
+import '../notfound-extra.css';
 
 function NotFound() {
   const navigate = useNavigate();
