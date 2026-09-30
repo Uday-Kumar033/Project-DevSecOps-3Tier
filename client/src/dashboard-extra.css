@@ -1,0 +1,211 @@
+/* ==========================================================
+   Append this to the end of your styles.css
+   (styles for the new Dashboard elements — blue & black theme)
+   ========================================================== */
+
+/* ---------- Brand / header ---------- */
+.dash-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.dash-brand-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--black), var(--primary));
+  color: #fff;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  box-shadow: var(--shadow-md);
+}
+
+.dash-title {
+  margin: 0;
+  font-size: 1.5rem;
+  background: linear-gradient(90deg, var(--black), var(--primary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.dash-subtitle {
+  margin: 2px 0 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.dash-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.role-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--black);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ---------- Avatars ---------- */
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.avatar-sm {
+  width: 28px;
+  height: 28px;
+  font-size: 0.7rem;
+}
+
+.name-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ---------- Stat cards ---------- */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 14px;
+  margin: 10px 0 24px;
+}
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 18px;
+  border-radius: var(--radius);
+  color: #fff;
+  background: linear-gradient(135deg, var(--black), var(--primary-dark) 60%, var(--primary));
+  box-shadow: var(--shadow-md);
+  transition: transform 0.2s ease;
+}
+
+.stat-card:hover { transform: translateY(-3px); }
+
+.stat-label {
+  font-size: 0.8rem;
+  color: #c7d6f5;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.stat-value-sm {
+  font-size: 1.4rem;
+  text-transform: capitalize;
+}
+
+/* ---------- Section title ---------- */
+.section-title {
+  margin: 10px 0 12px;
+  padding-left: 10px;
+  border-left: 4px solid var(--primary);
+}
+
+/* ---------- Password field with show/hide ---------- */
+.password-wrap {
+  position: relative;
+}
+
+.password-wrap .form-field { padding-right: 70px; }
+
+.toggle-pass {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  background: var(--black);
+  box-shadow: none;
+}
+
+/* ---------- Toolbar / search ---------- */
+.toolbar {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-top: 24px;
+}
+
+.search-field {
+  margin-bottom: 0;
+  flex: 1;
+}
+
+/* ---------- Table extras ---------- */
+.table th.sortable {
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s ease;
+}
+
+.table th.sortable:hover { background: var(--primary-dark); }
+
+.table-empty {
+  text-align: center;
+  color: var(--muted);
+  padding: 28px 12px;
+}
+
+/* ---------- Pagination ---------- */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 18px;
+  color: var(--muted);
+}
+
+/* ---------- Toast ---------- */
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 3000;
+  padding: 14px 20px;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+  animation: slideDown 0.4s ease;
+}
+
+.toast-success { background: linear-gradient(135deg, var(--black), #15803d); }
+.toast-error   { background: linear-gradient(135deg, var(--black), #b91c1c); }
+
+@media (max-width: 480px) {
+  .toolbar { flex-direction: column; }
+  .toolbar button { width: 100%; }
+  .toast { left: 12px; right: 12px; }
+}
