@@ -1,0 +1,79 @@
+/* ==========================================================
+   App.css — Blue & Black theme (same class names / keyframes)
+   ========================================================== */
+
+.App {
+  text-align: center;
+  color: #0b1220;
+  min-height: 100vh;
+  background: linear-gradient(120deg, #cfdcf3, #eaf1fb, #dbe6f8);
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+  filter: drop-shadow(0 0 24px rgba(59, 130, 246, 0.55));
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background:
+    radial-gradient(circle at top left, rgba(29, 78, 216, 0.55) 0%, transparent 55%),
+    linear-gradient(160deg, #05070d 0%, #0a1f5c 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 24px;
+  font-size: calc(10px + 2vmin);
+  line-height: 1.5;
+  color: #ffffff;
+}
+
+.App-header h1,
+.App-header h2 {
+  margin: 0;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+}
+
+.App-header p {
+  margin: 0;
+  max-width: 60ch;
+  color: #c7d6f5;
+}
+
+.App-link {
+  color: #60a5fa;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.App-link:hover {
+  color: #ffffff;
+  border-bottom-color: #3b82f6;
+}
+
+.App-link:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.5);
+  border-radius: 4px;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
