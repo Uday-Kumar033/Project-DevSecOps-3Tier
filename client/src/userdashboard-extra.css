@@ -1,0 +1,190 @@
+/* ==========================================================
+   src/userdashboard-extra.css — imported by UserDashboard.js
+   Blue & black theme. Uses the :root variables from styles.css
+   (--primary, --black, --muted ...), so styles.css must be loaded.
+   All class names are prefixed "ud-" so nothing collides with
+   dashboard-extra.css.
+   ========================================================== */
+
+/* ---------- Brand / header ---------- */
+.ud-brand { display: flex; align-items: center; gap: 14px; }
+
+.ud-brand-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--black), var(--primary));
+  color: #fff;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  box-shadow: var(--shadow-md);
+}
+
+.ud-title {
+  margin: 0;
+  font-size: 1.5rem;
+  background: linear-gradient(90deg, var(--black), var(--primary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.ud-subtitle { margin: 2px 0 0; font-size: 0.85rem; color: var(--muted); }
+
+.ud-user { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.ud-role {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--black);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ---------- Avatars ---------- */
+.ud-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.ud-avatar-sm { width: 28px; height: 28px; font-size: 0.7rem; }
+
+.ud-name-cell { display: inline-flex; align-items: center; gap: 10px; }
+
+/* ---------- Stat cards ---------- */
+.ud-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 14px;
+  margin: 10px 0 24px;
+}
+
+.ud-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 18px;
+  border-radius: var(--radius);
+  color: #fff;
+  background: linear-gradient(135deg, var(--black), var(--primary-dark) 60%, var(--primary));
+  box-shadow: var(--shadow-md);
+  transition: transform 0.2s ease;
+}
+
+.ud-stat:hover { transform: translateY(-3px); }
+
+.ud-stat-label {
+  font-size: 0.8rem;
+  color: #c7d6f5;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.ud-stat-value { font-size: 2rem; font-weight: 800; line-height: 1.1; }
+.ud-stat-sm { font-size: 1.4rem; text-transform: capitalize; }
+
+/* ---------- Form section ---------- */
+.ud-section {
+  margin: 10px 0 12px;
+  padding-left: 10px;
+  border-left: 4px solid var(--primary);
+}
+
+.ud-form-wrap { scroll-margin-top: 90px; }
+
+/* ---------- Toolbar ---------- */
+.ud-toolbar {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-top: 24px;
+}
+
+.ud-search { margin-bottom: 0; flex: 1; }
+
+/* ---------- Table extras ---------- */
+.ud-sortable {
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s ease;
+}
+
+.ud-sortable:hover { background: var(--primary-dark); }
+
+.ud-empty { text-align: center; color: var(--muted); padding: 28px 12px; }
+
+.table tbody tr.ud-row-editing {
+  background: #dbe8ff;
+  box-shadow: inset 4px 0 0 var(--primary);
+}
+
+/* ---------- Buttons ---------- */
+.ud-btn-danger { background: linear-gradient(135deg, var(--black), #b91c1c); }
+
+.ud-btn-outline {
+  background: transparent;
+  color: var(--primary-dark);
+  border: 2px solid var(--primary);
+}
+
+.ud-btn-outline:hover { background: var(--primary); color: #fff; }
+
+/* ---------- Pagination ---------- */
+.ud-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 18px;
+  color: var(--muted);
+}
+
+/* ---------- Delete modal ---------- */
+.ud-modal-title { margin-top: 0; }
+
+.ud-modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+
+/* ---------- Toast ---------- */
+.ud-toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 3000;
+  padding: 14px 20px;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+  animation: slideDown 0.4s ease;
+}
+
+.ud-toast-success { background: linear-gradient(135deg, var(--black), #15803d); }
+.ud-toast-error   { background: linear-gradient(135deg, var(--black), #b91c1c); }
+
+@media (max-width: 480px) {
+  .ud-toolbar { flex-direction: column; }
+  .ud-toolbar button { width: 100%; }
+  .ud-toast { left: 12px; right: 12px; }
+}
