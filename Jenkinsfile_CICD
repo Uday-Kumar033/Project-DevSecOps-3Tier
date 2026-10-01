@@ -1,4 +1,4 @@
-
+```groovy
 pipeline {
     agent any
     
@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Git Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/jaiswaladi246/3-Tier-DevSecOps-Mega-Project.git'
+                git branch: 'main', url: 'https://github.com/Uday-Kumar033/Project-DevSecOps-3Tier.git'
             }
         }
         
@@ -65,9 +65,9 @@ pipeline {
                 script {
                     withDockerRegistry(credentialsId: 'docker-cred') {
                         dir('api') {
-                            sh 'docker build -t adijaiswal/backend:latest .'
-                            sh 'trivy image --format table -o backend-image-report.html adijaiswal/backend:latest '
-                            sh 'docker push adijaiswal/backend:latest'
+                            sh 'docker build -t mruday033/backend:latest .'
+                            sh 'trivy image --format table -o backend-image-report.html mruday033/backend:latest '
+                            sh 'docker push mruday033/backend:latest'
                            
                         }
                     }
@@ -80,9 +80,9 @@ pipeline {
                 script {
                     withDockerRegistry(credentialsId: 'docker-cred') {
                         dir('client') {
-                            sh 'docker build -t adijaiswal/frontend:latest .'
-                            sh 'trivy image --format table -o frontend-image-report.html adijaiswal/frontend:latest '
-                            sh 'docker push adijaiswal/frontend:latest'
+                            sh 'docker build -t mruday033/frontend:latest .'
+                            sh 'trivy image --format table -o frontend-image-report.html mruday033/frontend:latest '
+                            sh 'docker push mruday033/frontend:latest'
                         }
                     }
                 }
@@ -101,14 +101,13 @@ pipeline {
        stage('Deployment To Prod') {
             steps {
                 script {
-                    withKubeConfig(caCertificate: '', clusterName: 'devopsshack-cluster', contextName: '', credentialsId: 'k8-prod-token', namespace: 'prod', restrictKubeConfigAccess: false, serverUrl: 'https://AFC6FCFF5360B30D5E8950396E38A8C4.gr7.ap-south-1.eks.amazonaws.com') {
+                    withKubeConfig(caCertificate: '', clusterName: 'udaydevops-cluster', contextName: '', credentialsId: 'k8-prod-token', namespace: 'prod', restrictKubeConfigAccess: false, serverUrl: 'https://AFC6FCFF5360B30D5E8950396E38A8C4.gr7.ap-south-1.eks.amazonaws.com') {
                         sh 'kubectl apply -f k8s-prod/sc.yaml'
                         sleep 20
                         sh 'kubectl apply -f k8s-prod/mysql.yaml -n prod'
                         sh 'kubectl apply -f k8s-prod/backend.yaml -n prod'
                         sh 'kubectl apply -f k8s-prod/frontend.yaml -n prod'
                         sh 'kubectl apply -f k8s-prod/ci.yaml'
-                        sh 'kubectl apply -f k8s-prod/ingress.yaml -n prod'
                         sleep 30
                     }
                 }
@@ -118,15 +117,16 @@ pipeline {
         stage('Verify Deployment To Prod') {
             steps {
                 script {
-                    withKubeConfig(caCertificate: '', clusterName: 'devopsshack-cluster', contextName: '', credentialsId: 'k8-prod-token', namespace: 'prod', restrictKubeConfigAccess: false, serverUrl: 'https://AFC6FCFF5360B30D5E8950396E38A8C4.gr7.ap-south-1.eks.amazonaws.com') {
-                        sh 'kubectl get pods -n prod'
-                        sleep 20
-                         sh 'kubectl get ingress -n prod'
-                        
-                    }
-                }
-            }
+                    withKubeConfig(caCertificate: '', clusterName: 'udaydevops-cluster', contextName: '', credentialsId: 'k8-prod-token', namespace: 'prod', restrictKubeConfigAccess: false, serverUrl: 'https://AFC6FCFF5360B30D5E8950396E38A8C4.gr7.ap-south-1.eks.amazonaws.com') { 
+                        sh 'kubectl get pods -n prod' 
+                        sleep 20 
+                        sh 'kubectl get ingress -n prod' 
+                         
+                    } 
+                } 
+            } 
         }
-            
-    }
+             
+    } 
 }
+```
