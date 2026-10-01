@@ -620,7 +620,7 @@ Use:
 Kind: Username with password
 
 Username:
-mruday033
+YOUR_DOCKER_HUB_USERNAME
 
 Password:
 YOUR_DOCKER_HUB_ACCESS_TOKEN
@@ -679,7 +679,7 @@ If you make the repository private, create:
 Kind: Username with password
 
 Username:
-Uday-Kumar033
+YOUR_GITHUB_USERNAME
 
 Password:
 YOUR_GITHUB_PERSONAL_ACCESS_TOKEN
@@ -1232,101 +1232,12 @@ The Jenkins credential must match:
 sonar-token
 ```
 
-------------------------------------------------------------------------
 
-# 29. Security Notes
-
-Do not commit these into GitHub:
-
-``` text
-.env
-passwords
-API keys
-AWS access keys
-Docker Hub tokens
-GitHub tokens
-SonarQube tokens
-private keys
-database credentials
-JWT secrets
-```
-
-Use:
-
--   Jenkins Credentials
--   environment variables
--   secret managers
--   `.gitignore`
-
-Gitleaks is included specifically to help detect accidentally committed
-secrets.
 
 ------------------------------------------------------------------------
 
-# 30. Recommended `.gitignore`
 
-Make sure sensitive/local files are ignored.
 
-Example:
-
-``` gitignore
-node_modules/
-.env
-.env.*
-!.env.example
-
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-*.log
-
-coverage/
-
-.DS_Store
-
-.idea/
-.vscode/
-
-terraform/.terraform/
-terraform/*.tfstate
-terraform/*.tfstate.*
-terraform/*.tfvars
-```
-
-Do not blindly ignore files required by the application. Review the
-existing repository before changing `.gitignore`.
-
-------------------------------------------------------------------------
-
-# 31. Final Verification Checklist
-
-Before running the Jenkins pipeline, verify:
-
--   [ ] Git installed
--   [ ] Java 21+ installed
--   [ ] Jenkins installed and running
--   [ ] Node.js configured in Jenkins
--   [ ] Docker installed
--   [ ] Docker Compose V2 installed
--   [ ] Jenkins can run Docker
--   [ ] Gitleaks installed
--   [ ] Trivy installed
--   [ ] SonarQube Server running
--   [ ] SonarQube server configured in Jenkins as `sonar`
--   [ ] SonarQube scanner configured as `sonar-scanner`
--   [ ] `sonar-token` Jenkins credential created
--   [ ] `docker-cred` Jenkins credential created
--   [ ] `github-cred` created if repository is private
--   [ ] Docker Hub username is `mruday033`
--   [ ] Jenkinsfile committed to `main`
--   [ ] Repository URL is correct
--   [ ] Docker Compose works manually
--   [ ] `curl http://localhost:3000` works
--   [ ] Jenkins pipeline job is configured
--   [ ] EC2 security group allows required ports
-
-------------------------------------------------------------------------
 
 # 32. Official Documentation References
 
@@ -1384,80 +1295,7 @@ https://trivy.dev/docs/latest/getting-started/installation/
 
 ------------------------------------------------------------------------
 
-# 33. Repository
 
-GitHub:
-
-https://github.com/Uday-Kumar033/Project-DevSecOps-3Tier
-
-Docker Hub namespace:
-
-``` text
-mruday033
-```
-
-Backend:
-
-``` text
-mruday033/backend:latest
-```
-
-Frontend:
-
-``` text
-mruday033/frontend:latest
-```
-
-------------------------------------------------------------------------
-
-## Pipeline Summary
-
-``` text
-                CODE
-                 |
-                 v
-              GitHub
-                 |
-                 v
-              Jenkins
-                 |
-       +---------+---------+
-       |                   |
-       v                   v
-   Compilation          Security
-       |              Gitleaks/Trivy
-       +---------+---------+
-                 |
-                 v
-             SonarQube
-                 |
-                 v
-            Quality Gate
-                 |
-                 v
-           Docker Build
-                 |
-                 v
-           Image Scanning
-                 |
-                 v
-        Docker Compose Test
-                 |
-                 v
-          Application Test
-                 |
-                 v
-          Compose Down
-                 |
-                 v
-          Docker Hub Push
-                 |
-                 v
-        Final Deployment
-                 |
-                 v
-          3-Tier Application
-```
 
 This project demonstrates a complete DevSecOps workflow from source-code
 checkout through security validation, containerization, automated
