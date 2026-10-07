@@ -27,7 +27,7 @@ This repository contains a 3-tier user management application built with a React
                 │      Port: 3306     │
                 └─────────────────────┘
  ```
-
+# Test on Local (Ubuntu)
 ## (A) MySQL Setup on Linux to run on local
 
 This guide explains how to install MySQL Server on Linux, configure the MySQL `root` user, create a database, and create a `users` table for a CRUD application.
