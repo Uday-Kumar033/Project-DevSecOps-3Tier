@@ -100,14 +100,12 @@ pipeline {
        stage('Deployment To Prod') {
             steps {
                 script {
-                    withKubeConfig(caCertificate: '', clusterName: 'udaydevops-cluster', contextName: '', credentialsId: 'k8-prod-token', namespace: 'prod', restrictKubeConfigAccess: false, serverUrl: 'https://AFC6FCFF5360B30D5E8950396E38A8C4.gr7.ap-south-1.eks.amazonaws.com') {
-                        sh 'kubectl apply -f k8s-prod/sc.yaml'
-                        sleep 20
+                    withKubeConfig(caCertificate: '', clusterName: 'udaydevops-cluster', contextName: '', credentialsId: 'k8-prod-token', namespace: 'prod', restrictKubeConfigAccess: false, serverUrl: 'https://BD4C499F74EDCE02B4B40357BFE179B9.gr7.ap-south-1.eks.amazonaws.com') {
                         sh 'kubectl apply -f k8s-prod/mysql.yaml -n prod'
-                        sh 'kubectl apply -f k8s-prod/backend.yaml -n prod'
-                        sh 'kubectl apply -f k8s-prod/frontend.yaml -n prod'
-                        sh 'kubectl apply -f k8s-prod/ci.yaml'
-                        sleep 30
+			sh 'kubectl apply -f k8s-prod/backend.yaml -n prod'
+			sh 'kubectl apply -f k8s-prod/frontend.yaml -n prod'
+			sh 'kubectl apply -f k8s-prod/ingress.yaml -n prod'
+			sleep 30
                     }
                 }
             }
@@ -116,10 +114,11 @@ pipeline {
         stage('Verify Deployment To Prod') {
             steps {
                 script {
-                    withKubeConfig(caCertificate: '', clusterName: 'udaydevops-cluster', contextName: '', credentialsId: 'k8-prod-token', namespace: 'prod', restrictKubeConfigAccess: false, serverUrl: 'https://AFC6FCFF5360B30D5E8950396E38A8C4.gr7.ap-south-1.eks.amazonaws.com') { 
+                    withKubeConfig(caCertificate: '', clusterName: 'udaydevops-cluster', contextName: '', credentialsId: 'k8-prod-token', namespace: 'prod', restrictKubeConfigAccess: false, serverUrl: 'https://BD4C499F74EDCE02B4B40357BFE179B9.gr7.ap-south-1.eks.amazonaws.com') { 
                         sh 'kubectl get pods -n prod' 
                         sleep 20 
                         sh 'kubectl get ingress -n prod' 
+                        sh 'kubectl get svc -n prod'
                          
                     } 
                 } 
