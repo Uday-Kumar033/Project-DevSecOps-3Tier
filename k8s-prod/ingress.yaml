@@ -1,3 +1,4 @@
+```yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -8,8 +9,7 @@ spec:
   ingressClassName: nginx
 
   rules:
-    - host: udaysinghpagurkothi@gmail.com
-      http:
+    - http:
         paths:
           - path: /api
             pathType: Prefix
@@ -26,22 +26,5 @@ spec:
                 name: frontend-svc
                 port:
                   number: 80
+```
 
-    - host: udaysinghpagurkothi@gmail.com
-      http:
-        paths:
-          - path: /api
-            pathType: Prefix
-            backend:
-              service:
-                name: backend-svc
-                port:
-                  number: 5000
-
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: frontend-svc
-                port:
-                  number: 80
