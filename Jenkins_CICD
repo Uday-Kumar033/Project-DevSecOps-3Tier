@@ -1,0 +1,340 @@
+```groovy
+pipeline {
+    agent any
+
+    options {
+        timestamps()
+        disableConcurrentBuilds()
+    }
+
+    tools {
+        nodejs 'nodejs23'
+    }
+
+    environment {
+        SCANNER_HOME = tool 'sonar-scanner'
+
+        DOCKERHUB_USER = 'mruday033'
+        BACKEND_IMAGE = 'mruday033/backend'
+        FRONTEND_IMAGE = 'mruday033/frontend'
+
+        EKS_CLUSTER = 'udaydevops-cluster'
+        EKS_NAMESPACE = 'prod'
+        EKS_SERVER = 'https://BD4C499F74EDCE02B4B40357BFE179B9.gr7.ap-south-1.eks.amazonaws.com'
+    }
+
+    stages {
+
+        stage('Git Checkout') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/Uday-Kumar033/Project-DevSecOps-3Tier.git'
+            }
+        }
+
+        stage('Frontend Compilation') {
+            steps {
+                dir('client') {
+                    sh 'find . -name "*.js" -exec node --check {} +'
+                }
+            }
+        }
+
+        stage('Backend Compilation') {
+            steps {
+                dir('api') {
+                    sh 'find . -name "*.js" -exec node --check {} +'
+                }
+            }
+        }
+
+        stage('GitLeaks Scan') {
+            steps {
+                sh 'gitleaks detect --source ./client --exit-code 1'
+                sh 'gitleaks detect --source ./api --exit-code 1'
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('sonar') {
+                    sh '''
+                        $SCANNER_HOME/bin/sonar-scanner \
+                        -Dsonar.projectName=NodeJS-Project \
+                        -Dsonar.projectKey=NodeJS-Project
+                    '''
+                }
+            }
+        }
+
+        stage('Quality Gate Check') {
+            steps {
+                timeout(time: 1, unit: 'HOURS') {
+                    waitForQualityGate(
+                        abortPipeline: false,
+                        credentialsId: 'sonar-token'
+                    )
+                }
+            }
+        }
+
+        stage('Trivy FS Scan') {
+            steps {
+                sh 'trivy fs --format table -o fs-report.html .'
+            }
+        }
+
+        stage('Build & Push Backend Image') {
+            steps {
+                script {
+                    withDockerRegistry(credentialsId: 'docker-cred') {
+                        dir('api') {
+
+                            sh '''
+                                docker build \
+                                  -t ${BACKEND_IMAGE}:${BUILD_NUMBER} \
+                                  -t ${BACKEND_IMAGE}:latest .
+                            '''
+
+                            sh '''
+                                trivy image \
+                                  --format table \
+                                  -o backend-image-report.html \
+                                  ${BACKEND_IMAGE}:${BUILD_NUMBER}
+                            '''
+
+                            sh 'docker push ${BACKEND_IMAGE}:${BUILD_NUMBER}'
+                            sh 'docker push ${BACKEND_IMAGE}:latest'
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Build & Push Frontend Image') {
+            steps {
+                script {
+                    withDockerRegistry(credentialsId: 'docker-cred') {
+                        dir('client') {
+
+                            sh '''
+                                docker build \
+                                  -t ${FRONTEND_IMAGE}:${BUILD_NUMBER} \
+                                  -t ${FRONTEND_IMAGE}:latest .
+                            '''
+
+                            sh '''
+                                trivy image \
+                                  --format table \
+                                  -o frontend-image-report.html \
+                                  ${FRONTEND_IMAGE}:${BUILD_NUMBER}
+                            '''
+
+                            sh 'docker push ${FRONTEND_IMAGE}:${BUILD_NUMBER}'
+                            sh 'docker push ${FRONTEND_IMAGE}:latest'
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Deploy To Kubernetes') {
+            steps {
+                script {
+
+                    /*
+                     * Replace latest with this Jenkins build number
+                     * in the Kubernetes deployment manifests.
+                     */
+                    sh '''
+                        sed -i "s|image: mruday033/backend:.*|image: mruday033/backend:${BUILD_NUMBER}|" \
+                            k8s-prod/backend.yaml
+
+                        sed -i "s|image: mruday033/frontend:.*|image: mruday033/frontend:${BUILD_NUMBER}|" \
+                            k8s-prod/frontend.yaml
+                    '''
+
+                    withKubeConfig(
+                        caCertificate: '',
+                        clusterName: "${EKS_CLUSTER}",
+                        contextName: '',
+                        credentialsId: 'k8-prod-token',
+                        namespace: "${EKS_NAMESPACE}",
+                        restrictKubeConfigAccess: false,
+                        serverUrl: "${EKS_SERVER}"
+                    ) {
+
+                        echo "Deploying build ${BUILD_NUMBER} to Kubernetes..."
+
+                        sh '''
+                            kubectl apply \
+                              -f k8s-prod/mysql.yaml \
+                              -n ${EKS_NAMESPACE}
+
+                            kubectl apply \
+                              -f k8s-prod/backend.yaml \
+                              -n ${EKS_NAMESPACE}
+
+                            kubectl apply \
+                              -f k8s-prod/frontend.yaml \
+                              -n ${EKS_NAMESPACE}
+                        '''
+
+                        echo "Waiting for MySQL..."
+
+                        sh '''
+                            kubectl rollout status \
+                              statefulset/mysql \
+                              -n ${EKS_NAMESPACE} \
+                              --timeout=5m
+                        '''
+
+                        echo "Waiting for Backend..."
+
+                        sh '''
+                            kubectl rollout status \
+                              deployment/backend \
+                              -n ${EKS_NAMESPACE} \
+                              --timeout=5m
+                        '''
+
+                        echo "Waiting for Frontend..."
+
+                        sh '''
+                            kubectl rollout status \
+                              deployment/frontend \
+                              -n ${EKS_NAMESPACE} \
+                              --timeout=5m
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('Verify Kubernetes Deployment') {
+            steps {
+                script {
+
+                    withKubeConfig(
+                        caCertificate: '',
+                        clusterName: "${EKS_CLUSTER}",
+                        contextName: '',
+                        credentialsId: 'k8-prod-token',
+                        namespace: "${EKS_NAMESPACE}",
+                        restrictKubeConfigAccess: false,
+                        serverUrl: "${EKS_SERVER}"
+                    ) {
+
+                        sh 'kubectl get pods -n ${EKS_NAMESPACE}'
+                        sh 'kubectl get svc -n ${EKS_NAMESPACE}'
+                        sh 'kubectl get endpoints -n ${EKS_NAMESPACE}'
+
+                    }
+                }
+            }
+        }
+
+        stage('Wait For LoadBalancer') {
+            steps {
+                script {
+
+                    withKubeConfig(
+                        caCertificate: '',
+                        clusterName: "${EKS_CLUSTER}",
+                        contextName: '',
+                        credentialsId: 'k8-prod-token',
+                        namespace: "${EKS_NAMESPACE}",
+                        restrictKubeConfigAccess: false,
+                        serverUrl: "${EKS_SERVER}"
+                    ) {
+
+                        sh '''
+                            echo "Waiting for AWS Load Balancer..."
+
+                            for i in $(seq 1 30); do
+
+                                LB_HOST=$(kubectl get svc frontend-svc \
+                                  -n ${EKS_NAMESPACE} \
+                                  -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+
+                                if [ -n "$LB_HOST" ]; then
+                                    echo "Load Balancer: $LB_HOST"
+                                    break
+                                fi
+
+                                echo "Load Balancer is still pending..."
+                                sleep 10
+                            done
+
+                            if [ -z "$LB_HOST" ]; then
+                                echo "ERROR: Load Balancer hostname was not created."
+                                exit 1
+                            fi
+
+                            echo "$LB_HOST" > loadbalancer-url.txt
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('Application Health Check') {
+            steps {
+                script {
+
+                    withKubeConfig(
+                        caCertificate: '',
+                        clusterName: "${EKS_CLUSTER}",
+                        contextName: '',
+                        credentialsId: 'k8-prod-token',
+                        namespace: "${EKS_NAMESPACE}",
+                        restrictKubeConfigAccess: false,
+                        serverUrl: "${EKS_SERVER}"
+                    ) {
+
+                        sh '''
+                            LB_HOST=$(cat loadbalancer-url.txt)
+
+                            echo "Testing application..."
+                            echo "URL: http://${LB_HOST}"
+
+                            curl \
+                              --fail \
+                              --max-time 20 \
+                              -I \
+                              "http://${LB_HOST}/"
+
+                            echo ""
+                            echo "Application is UP!"
+                            echo "http://${LB_HOST}"
+                        '''
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "=========================================="
+            echo "     CI/CD PIPELINE SUCCESS"
+            echo "=========================================="
+
+            archiveArtifacts artifacts: 'fs-report.html,api/backend-image-report.html,client/frontend-image-report.html,loadbalancer-url.txt',
+                             allowEmptyArchive: true
+        }
+
+        failure {
+            echo "=========================================="
+            echo "     CI/CD PIPELINE FAILED"
+            echo "=========================================="
+
+            echo "Check the failed stage and Kubernetes pod logs."
+        }
+
+        always {
+            echo "Pipeline completed."
+        }
+    }
+}
+```
